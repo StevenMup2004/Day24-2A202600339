@@ -6,6 +6,7 @@ import math
 import os
 import re
 import statistics
+import time
 import unicodedata
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent
 DAY18_ROOTS = [
+    ROOT / "day18-rag",
     ROOT.parent / "day18submit" / "Day18-Track3-Production-RAG",
     ROOT.parent / "day18" / "Day18-Track3-Production-RAG",
 ]
@@ -35,6 +37,66 @@ def load_env(path: Path | None = None) -> dict[str, str]:
             os.environ.setdefault(key, value)
             loaded[key] = value
     return loaded
+
+
+def openai_api_key_available() -> bool:
+    load_env()
+    return bool(os.getenv("OPENAI_API_KEY", "").strip())
+
+
+def openai_chat(
+    system: str,
+    user: str,
+    *,
+    model: str | None = None,
+    temperature: float = 0.0,
+    max_tokens: int = 500,
+    retries: int = 2,
+) -> str:
+    """Call OpenAI Chat Completions using the key from .env.
+
+    The key is loaded but never printed or written to artifacts.
+    """
+    load_env()
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not set")
+    model = model or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+    last_error: Exception | None = None
+    for attempt in range(retries + 1):
+        try:
+            from openai import OpenAI  # type: ignore
+
+            client = OpenAI(api_key=api_key)
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+                temperature=temperature,
+                max_tokens=max_tokens,
+            )
+            return (resp.choices[0].message.content or "").strip()
+        except Exception as exc:  # pragma: no cover - network/API dependent
+            last_error = exc
+            if attempt < retries:
+                time.sleep(1.5 * (attempt + 1))
+    raise RuntimeError(f"OpenAI call failed: {last_error}")
+
+
+def extract_json_object(text: str) -> dict[str, Any]:
+    cleaned = text.strip().replace("```json", "").replace("```", "").strip()
+    try:
+        payload = json.loads(cleaned)
+        if isinstance(payload, dict):
+            return payload
+    except json.JSONDecodeError:
+        pass
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start >= 0 and end > start:
+        payload = json.loads(cleaned[start : end + 1])
+        if isinstance(payload, dict):
+            return payload
+    raise json.JSONDecodeError("Could not parse JSON object", cleaned, 0)
 
 
 def read_json(path: Path) -> Any:

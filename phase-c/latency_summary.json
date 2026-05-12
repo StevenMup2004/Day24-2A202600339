@@ -1,0 +1,14 @@
+{
+  "num_requests": 100,
+  "blocked_rate": 0.38,
+  "l1_p50_ms": 0.066,
+  "l1_p95_ms": 0.142,
+  "l3_p50_ms": 1492.828,
+  "l3_p95_ms": 2316.373,
+  "total_p50_ms": 1495.346,
+  "total_p95_ms": 2317.918,
+  "total_p99_ms": 2912.119,
+  "baseline_without_guardrail_ms": 0.15,
+  "overhead_note": "Measured with OpenAI output guard network calls included.",
+  "output_guard_mode": "openai"
+}

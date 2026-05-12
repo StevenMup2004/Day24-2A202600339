@@ -1,0 +1,111 @@
+{
+  "aggregate": {
+    "faithfulness": 0.9338366880822124,
+    "answer_relevancy": 0.48147213966766395,
+    "context_precision": 0.1425261305485479,
+    "context_recall": 0.9387525676937442
+  },
+  "num_questions": 25,
+  "failures": [
+    {
+      "question": "Hình ảnh của cá nhân thuộc loại dữ liệu nào?",
+      "worst_metric": "context_precision",
+      "score": 0.053222612631390886,
+      "avg_score": 0.4106270817292763,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Thuộc dữ liệu cá nhân cơ bản.",
+      "got": "Không tìm thấy thông tin trong tài liệu."
+    },
+    {
+      "question": "Một nghĩa vụ của chủ thể dữ liệu theo Điều 10 là gì?",
+      "worst_metric": "context_precision",
+      "score": 0.07218720821661999,
+      "avg_score": 0.4535043183940243,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Cung cấp đầy đủ, chính xác dữ liệu cá nhân khi đồng ý cho phép xử lý dữ liệu cá nhân.",
+      "got": "Một nghĩa vụ của chủ thể dữ liệu theo Điều 10 là tự bảo vệ dữ liệu cá nhân của mình."
+    },
+    {
+      "question": "Nguyên tắc nào yêu cầu dữ liệu phải thu thập phù hợp, giới hạn?",
+      "worst_metric": "answer_relevancy",
+      "score": 0.1875,
+      "avg_score": 0.47572300561430997,
+      "diagnosis": "Answer mismatch with the question",
+      "suggested_fix": "Improve answer prompt template and enforce question-focused response.",
+      "expected": "Dữ liệu cá nhân thu thập phải phù hợp và giới hạn trong phạm vi, mục đích cần xử lý.",
+      "got": "Không tìm thấy thông tin trong tài liệu."
+    },
+    {
+      "question": "Chủ thể dữ liệu có quyền phản đối xử lý dữ liệu để làm gì?",
+      "worst_metric": "context_precision",
+      "score": 0.1046944283786389,
+      "avg_score": 0.5037168971379498,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Để ngăn chặn hoặc hạn chế tiết lộ dữ liệu cá nhân hoặc sử dụng cho mục đích quảng cáo, tiếp thị.",
+      "got": "Chủ thể dữ liệu có quyền phản đối việc xử lý dữ liệu cá nhân của mình nhằm ngăn chặn hoặc hạn chế việc xử lý đó."
+    },
+    {
+      "question": "Bên kiểm soát phải thực hiện yêu cầu phản đối xử lý dữ liệu trong bao lâu?",
+      "worst_metric": "context_precision",
+      "score": 0.10467638691322902,
+      "avg_score": 0.5105440967283073,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Trong 72 giờ sau khi nhận được yêu cầu.",
+      "got": "Không tìm thấy thông tin trong tài liệu."
+    },
+    {
+      "question": "Việc cung cấp dữ liệu cá nhân cho chủ thể dữ liệu phải thực hiện trong bao lâu?",
+      "worst_metric": "context_precision",
+      "score": 0.17684077618288144,
+      "avg_score": 0.5442101940457204,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu.",
+      "got": "Không tìm thấy thông tin trong tài liệu."
+    },
+    {
+      "question": "Theo Điều 2, dữ liệu cá nhân là gì?",
+      "worst_metric": "context_precision",
+      "score": 0.15892042863657094,
+      "avg_score": 0.583960876389912,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Là thông tin gắn liền với một con người cụ thể hoặc giúp xác định một con người cụ thể.",
+      "got": "Dữ liệu cá nhân được định nghĩa là thông tin dưới dạng ký hiệu, chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương tự trên môi trường điện tử gắn liên với một con người cụ thể hoặc giúp xác định một con người cụ thể."
+    },
+    {
+      "question": "Xử lý dữ liệu cá nhân gồm những hoạt động nào?",
+      "worst_metric": "context_precision",
+      "score": 0.12707296849087893,
+      "avg_score": 0.6042682421227197,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Gồm các hoạt động như thu thập, lưu trữ, chỉnh sửa, truy cập, cung cấp, chuyển giao, xóa, hủy dữ liệu.",
+      "got": "Các hoạt động liên quan đến việc xử lý dữ liệu cá nhân bao gồm: thu thập, ghi, phân tích, xác nhận, lưu trữ, chỉnh sửa, công khai, kết hợp, truy cập, truy xuất, thụ hỏi, mã hóa, giải mã, sao chép, chia sẻ, truyền đưa, cung cấp, chuyển giao, xóa, hủy dữ liệu."
+    },
+    {
+      "question": "Nêu một nội dung bắt buộc trong thông báo xử lý dữ liệu cá nhân.",
+      "worst_metric": "context_precision",
+      "score": 0.03182908291952062,
+      "avg_score": 0.6108984472004684,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Mục đích xử lý.",
+      "got": "Một nội dung bắt buộc trong thông báo xử lý dữ liệu cá nhân là mục đích xử lý."
+    },
+    {
+      "question": "Một trường hợp không cung cấp dữ liệu cá nhân là gì?",
+      "worst_metric": "context_precision",
+      "score": 0.10682072581595381,
+      "avg_score": 0.6285570333058403,
+      "diagnosis": "Irrelevant chunks retrieved",
+      "suggested_fix": "Add stronger reranking and metadata filters.",
+      "expected": "Khi việc cung cấp gây tổn hại tới quốc phòng, an ninh quốc gia, trật tự an toàn xã hội.",
+      "got": "Một trường hợp không cung cấp dữ liệu cá nhân là khi việc cung cấp dữ liệu cá nhân gây tổn hại tới quốc phòng, an ninh quốc gia, trật tự an toàn xã hội."
+    }
+  ]
+}

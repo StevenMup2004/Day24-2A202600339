@@ -1,0 +1,6 @@
+{
+  "num_labels": 10,
+  "cohen_kappa": 1.0,
+  "interpretation": "almost perfect agreement",
+  "note": "Human labels were sampled from the first 10 pairwise comparisons and normalized to A/B/tie."
+}

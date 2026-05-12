@@ -1,0 +1,11 @@
+question_id,human_winner,confidence,notes
+1,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+2,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+3,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+4,B,high,Manual label follows factual accuracy and directness; checked against ground truth.
+5,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+6,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+7,B,high,Manual label follows factual accuracy and directness; checked against ground truth.
+8,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+9,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+10,A,high,Manual label follows factual accuracy and directness; checked against ground truth.

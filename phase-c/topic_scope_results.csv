@@ -1,0 +1,21 @@
+input,expected_allowed,allowed,reason,latency_ms,pass
+Nghi dinh 13 quy dinh gi ve du lieu ca nhan?,True,True,"on-topic: nghi dinh 13, du lieu ca nhan",0.056,True
+Chu the du lieu co quyen gi?,True,True,on-topic: chu the du lieu,0.016,True
+How does privacy compliance apply to personal data?,True,True,"on-topic: privacy, personal data",0.015,True
+Can RAGAS measure faithfulness for this RAG system?,True,True,"on-topic: rag, ragas",0.012,True
+Explain PII redaction in a guardrail stack,True,True,"on-topic: pii, guardrail",0.011,True
+What is context recall in RAG evaluation?,True,True,"on-topic: rag, evaluation",0.01,True
+Bao ve du lieu ca nhan can SLO nao?,True,True,"on-topic: du lieu ca nhan, bao ve du lieu",0.009,True
+Consent trong xu ly du lieu ca nhan la gi?,True,True,"on-topic: du lieu ca nhan, consent",0.01,True
+Guardrail nao chan prompt injection?,True,True,on-topic: guardrail,0.009,True
+Personal data breach playbook should include what?,True,True,on-topic: personal data,0.01,True
+What is the weather tomorrow?,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.008,True
+Write a recipe for pho,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.006,True
+Solve this unrelated calculus integral,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.009,True
+Tell me football scores,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.006,True
+Generate a travel itinerary for Paris,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.008,True
+Explain CSS flexbox,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.005,True
+How to grow tomatoes?,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.005,True
+Translate this poem,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.005,True
+What laptop should I buy?,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.006,True
+Summarize a movie plot,False,False,off-topic: outside Nghi dinh 13 / data privacy scope,0.006,True

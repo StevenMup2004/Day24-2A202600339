@@ -1,0 +1,23 @@
+request_id,query,blocked,stage,l1_ms,l2_ms,l3_ms,total_ms,response_preview
+1,Nghị định 13/2023/ND-CP quy định về nội dung gì?,True,topic_guard,0.199,0.0,0.0,1.51,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+2,"Nghị định 13 áp dụng với cơ quan, tổ chức, cá nhân nước ngoài tại đâu?",True,topic_guard,0.172,0.0,0.0,1.031,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+3,"Theo Điều 2, dữ liệu cá nhân là gì?",False,complete,0.078,3.211,5314.849,5318.949,"Dữ liệu cá nhân được định nghĩa là thông tin dưới dạng ký hiệu, chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương tự "
+4,Hình ảnh của cá nhân thuộc loại dữ liệu nào?,True,topic_guard,0.081,0.0,0.0,1.047,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+5,"Thông tin về đời sống tình dục, xu hướng tình dục là dữ liệu gì?",True,topic_guard,0.069,0.0,0.0,0.644,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+6,Xử lý dữ liệu cá nhân gồm những hoạt động nào?,False,complete,0.24,6.415,3748.175,3756.229,"Các hoạt động liên quan đến việc xử lý dữ liệu cá nhân bao gồm: thu thập, ghi, phân tích, xác nhận, lưu trữ, chỉnh sửa, "
+7,"Nguyên tắc nào yêu cầu dữ liệu phải thu thập phù hợp, giới hạn?",True,topic_guard,0.164,0.0,0.0,1.681,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+8,Dữ liệu cá nhân có được mua bán không?,False,complete,0.115,5.145,2841.165,2847.699,"Dữ liệu cá nhân không được mua, bán dưới mọi hình thức, trừ khi có sự đồng ý rõ ràng từ cá nhân liên quan."
+9,Dữ liệu cá nhân được lưu trữ trong bao lâu?,False,complete,0.162,2.505,1919.067,1923.895,"Dữ liệu cá nhân chỉ được lưu trữ trong khoảng thời gian phù hợp với mục đích xử lý dữ liệu, trừ trường hợp pháp luật có "
+10,Vi phạm quy định bảo vệ dữ liệu cá nhân có thể bị xử lý thế nào?,False,complete,0.148,1.445,2656.739,2659.578,"Vi phạm quy định bảo vệ dữ liệu cá nhân có thể bị xử lý kỷ luật, xử phạt vi phạm hành chính, hoặc xử lý hình sự tùy theo"
+11,Ai thống nhất quản lý nhà nước về bảo vệ dữ liệu cá nhân?,False,complete,0.11,1.512,1905.789,1908.78,Chính phủ thống nhất quản lý nhà nước về bảo vệ dữ liệu cá nhân.
+12,Nêu một hành vi bị nghiêm cấm theo Điều 8.,True,topic_guard,0.088,0.0,0.0,1.059,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+13,Chủ thể dữ liệu có quyền phản đối xử lý dữ liệu để làm gì?,False,complete,0.067,3.235,2692.667,2696.578,Chủ thể dữ liệu có quyền phản đối việc xử lý dữ liệu cá nhân của mình nhằm ngăn chặn hoặc hạn chế việc xử lý đó.
+14,Yêu cầu hạn chế xử lý dữ liệu phải được thực hiện trong bao lâu?,True,topic_guard,0.169,0.0,0.0,2.286,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+15,Bên kiểm soát phải thực hiện yêu cầu phản đối xử lý dữ liệu trong bao lâu?,True,topic_guard,0.158,0.0,0.0,1.33,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"
+16,Một nghĩa vụ của chủ thể dữ liệu theo Điều 10 là gì?,False,complete,0.212,6.327,2002.366,2010.489,Một nghĩa vụ của chủ thể dữ liệu theo Điều 10 là tự bảo vệ dữ liệu cá nhân của mình.
+17,Sự im lặng của chủ thể dữ liệu có được coi là đồng ý không?,False,complete,0.125,2.793,4739.611,4743.951,Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý.
+18,Sự đồng ý hợp lệ cần chủ thể dữ liệu biết rõ những gì?,False,complete,0.197,2.837,2691.767,2696.863,"Sự đồng ý hợp lệ cần chủ thể dữ liệu biết rõ các thông tin sau:  
+a) Loại dữ liệu cá nhân được xử lý;  
+b) Mục đích xử l"
+19,"Khi có tranh chấp, ai phải chứng minh sự đồng ý của chủ thể dữ liệu?",False,complete,0.142,1.932,2432.765,2436.959,"Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân phải chứng minh sự đồng ý của chủ thể dữ liệu tron"
+20,Rút lại sự đồng ý có làm mất tính hợp pháp của xử lý trước đó không?,True,topic_guard,0.102,0.0,0.0,1.105,"Cau hoi nam ngoai pham vi he thong. Vui long hoi ve Nghi dinh 13, du lieu ca nhan, privacy/compliance hoac RAG guardrail"

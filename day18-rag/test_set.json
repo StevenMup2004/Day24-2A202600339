@@ -1,0 +1,152 @@
+[
+  {
+    "question": "Nghị định 13/2023/ND-CP quy định về nội dung gì?",
+    "ground_truth": "Quy định về bảo vệ dữ liệu cá nhân và trách nhiệm bảo vệ dữ liệu cá nhân.",
+    "article": "Điều 1 khoản 1",
+    "evidence_span": "Nghị định này quy định về bảo vệ dữ liệu cá nhân và trách nhiệm bảo vệ dữ liệu cá nhân."
+  },
+  {
+    "question": "Nghị định 13 áp dụng với cơ quan, tổ chức, cá nhân nước ngoài tại đâu?",
+    "ground_truth": "Áp dụng đối với cơ quan, tổ chức, cá nhân nước ngoài tại Việt Nam.",
+    "article": "Điều 1 khoản 2",
+    "evidence_span": "Cơ quan, tổ chức, cá nhân nước ngoài tại Việt Nam."
+  },
+  {
+    "question": "Theo Điều 2, dữ liệu cá nhân là gì?",
+    "ground_truth": "Là thông tin gắn liền với một con người cụ thể hoặc giúp xác định một con người cụ thể.",
+    "article": "Điều 2 khoản 1",
+    "evidence_span": "Dữ liệu cá nhân là thông tin ... gắn liền với một con người cụ thể hoặc giúp xác định một con người cụ thể."
+  },
+  {
+    "question": "Hình ảnh của cá nhân thuộc loại dữ liệu nào?",
+    "ground_truth": "Thuộc dữ liệu cá nhân cơ bản.",
+    "article": "Điều 2 khoản 3",
+    "evidence_span": "Dữ liệu cá nhân cơ bản bao gồm ... Hình ảnh của cá nhân."
+  },
+  {
+    "question": "Thông tin về đời sống tình dục, xu hướng tình dục là dữ liệu gì?",
+    "ground_truth": "Là dữ liệu cá nhân nhạy cảm.",
+    "article": "Điều 2 khoản 4",
+    "evidence_span": "Dữ liệu cá nhân nhạy cảm bao gồm ... thông tin về đời sống tình dục, xu hướng tình dục."
+  },
+  {
+    "question": "Xử lý dữ liệu cá nhân gồm những hoạt động nào?",
+    "ground_truth": "Gồm các hoạt động như thu thập, lưu trữ, chỉnh sửa, truy cập, cung cấp, chuyển giao, xóa, hủy dữ liệu.",
+    "article": "Điều 2 khoản 7",
+    "evidence_span": "Xử lý dữ liệu cá nhân là ... thu thập ... lưu trữ ... cung cấp, chuyển giao, xóa, hủy dữ liệu cá nhân."
+  },
+  {
+    "question": "Nguyên tắc nào yêu cầu dữ liệu phải thu thập phù hợp, giới hạn?",
+    "ground_truth": "Dữ liệu cá nhân thu thập phải phù hợp và giới hạn trong phạm vi, mục đích cần xử lý.",
+    "article": "Điều 3 khoản 4",
+    "evidence_span": "Dữ liệu cá nhân thu thập phải phù hợp và giới hạn trong phạm vi, mục đích cần xử lý."
+  },
+  {
+    "question": "Dữ liệu cá nhân có được mua bán không?",
+    "ground_truth": "Không được mua, bán dưới mọi hình thức, trừ trường hợp luật có quy định khác.",
+    "article": "Điều 3 khoản 4",
+    "evidence_span": "Dữ liệu cá nhân không được mua, bán dưới mọi hình thức, trừ trường hợp luật có quy định khác."
+  },
+  {
+    "question": "Dữ liệu cá nhân được lưu trữ trong bao lâu?",
+    "ground_truth": "Chỉ được lưu trữ trong khoảng thời gian phù hợp với mục đích xử lý dữ liệu.",
+    "article": "Điều 3 khoản 7",
+    "evidence_span": "Dữ liệu cá nhân chỉ được lưu trữ trong khoảng thời gian phù hợp với mục đích xử lý dữ liệu."
+  },
+  {
+    "question": "Vi phạm quy định bảo vệ dữ liệu cá nhân có thể bị xử lý thế nào?",
+    "ground_truth": "Có thể bị xử lý kỷ luật, xử phạt vi phạm hành chính, hoặc xử lý hình sự.",
+    "article": "Điều 4",
+    "evidence_span": "Tùy theo mức độ có thể bị xử lý kỷ luật, xử phạt vi phạm hành chính, xử lý hình sự."
+  },
+  {
+    "question": "Ai thống nhất quản lý nhà nước về bảo vệ dữ liệu cá nhân?",
+    "ground_truth": "Chính phủ thống nhất quản lý nhà nước về bảo vệ dữ liệu cá nhân.",
+    "article": "Điều 5",
+    "evidence_span": "Chính phủ thống nhất quản lý nhà nước về bảo vệ dữ liệu cá nhân."
+  },
+  {
+    "question": "Nêu một hành vi bị nghiêm cấm theo Điều 8.",
+    "ground_truth": "Xử lý dữ liệu cá nhân trái với quy định của pháp luật về bảo vệ dữ liệu cá nhân.",
+    "article": "Điều 8 khoản 1",
+    "evidence_span": "Xử lý dữ liệu cá nhân trái với quy định của pháp luật về bảo vệ dữ liệu cá nhân."
+  },
+  {
+    "question": "Chủ thể dữ liệu có quyền phản đối xử lý dữ liệu để làm gì?",
+    "ground_truth": "Để ngăn chặn hoặc hạn chế tiết lộ dữ liệu cá nhân hoặc sử dụng cho mục đích quảng cáo, tiếp thị.",
+    "article": "Điều 9 khoản 8",
+    "evidence_span": "Phản đối ... nhằm ngăn chặn hoặc hạn chế tiết lộ dữ liệu cá nhân hoặc sử dụng cho mục đích quảng cáo, tiếp thị."
+  },
+  {
+    "question": "Yêu cầu hạn chế xử lý dữ liệu phải được thực hiện trong bao lâu?",
+    "ground_truth": "Trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu.",
+    "article": "Điều 9 khoản 6",
+    "evidence_span": "Việc hạn chế xử lý dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu."
+  },
+  {
+    "question": "Bên kiểm soát phải thực hiện yêu cầu phản đối xử lý dữ liệu trong bao lâu?",
+    "ground_truth": "Trong 72 giờ sau khi nhận được yêu cầu.",
+    "article": "Điều 9 khoản 8",
+    "evidence_span": "Thực hiện yêu cầu của chủ thể dữ liệu trong 72 giờ sau khi nhận được yêu cầu."
+  },
+  {
+    "question": "Một nghĩa vụ của chủ thể dữ liệu theo Điều 10 là gì?",
+    "ground_truth": "Cung cấp đầy đủ, chính xác dữ liệu cá nhân khi đồng ý cho phép xử lý dữ liệu cá nhân.",
+    "article": "Điều 10 khoản 3",
+    "evidence_span": "Cung cấp đầy đủ, chính xác dữ liệu cá nhân khi đồng ý cho phép xử lý dữ liệu cá nhân."
+  },
+  {
+    "question": "Sự im lặng của chủ thể dữ liệu có được coi là đồng ý không?",
+    "ground_truth": "Không, sự im lặng hoặc không phản hồi không được coi là sự đồng ý.",
+    "article": "Điều 11 khoản 6",
+    "evidence_span": "Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý."
+  },
+  {
+    "question": "Sự đồng ý hợp lệ cần chủ thể dữ liệu biết rõ những gì?",
+    "ground_truth": "Loại dữ liệu được xử lý, mục đích xử lý, tổ chức cá nhân xử lý và các quyền nghĩa vụ của chủ thể dữ liệu.",
+    "article": "Điều 11 khoản 2",
+    "evidence_span": "Biết rõ: loại dữ liệu, mục đích xử lý, tổ chức cá nhân xử lý, quyền và nghĩa vụ."
+  },
+  {
+    "question": "Khi có tranh chấp, ai phải chứng minh sự đồng ý của chủ thể dữ liệu?",
+    "ground_truth": "Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân.",
+    "article": "Điều 11 khoản 10",
+    "evidence_span": "Trách nhiệm chứng minh sự đồng ý ... thuộc về Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân."
+  },
+  {
+    "question": "Rút lại sự đồng ý có làm mất tính hợp pháp của xử lý trước đó không?",
+    "ground_truth": "Không ảnh hưởng đến tính hợp pháp của việc xử lý dữ liệu đã được đồng ý trước khi rút lại.",
+    "article": "Điều 12 khoản 1",
+    "evidence_span": "Việc rút lại sự đồng ý không ảnh hưởng đến tính hợp pháp của việc xử lý dữ liệu đã được đồng ý trước đó."
+  },
+  {
+    "question": "Thông báo xử lý dữ liệu cá nhân được thực hiện khi nào?",
+    "ground_truth": "Được thực hiện một lần trước khi tiến hành hoạt động xử lý dữ liệu cá nhân.",
+    "article": "Điều 13 khoản 1",
+    "evidence_span": "Việc thông báo được thực hiện một lần trước khi tiến hành ... xử lý dữ liệu cá nhân."
+  },
+  {
+    "question": "Nêu một nội dung bắt buộc trong thông báo xử lý dữ liệu cá nhân.",
+    "ground_truth": "Mục đích xử lý.",
+    "article": "Điều 13 khoản 2",
+    "evidence_span": "Nội dung thông báo ... Mục đích xử lý."
+  },
+  {
+    "question": "Việc cung cấp dữ liệu cá nhân cho chủ thể dữ liệu phải thực hiện trong bao lâu?",
+    "ground_truth": "Trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu.",
+    "article": "Điều 14 khoản 3",
+    "evidence_span": "Được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu."
+  },
+  {
+    "question": "Một trường hợp không cung cấp dữ liệu cá nhân là gì?",
+    "ground_truth": "Khi việc cung cấp gây tổn hại tới quốc phòng, an ninh quốc gia, trật tự an toàn xã hội.",
+    "article": "Điều 14 khoản 4",
+    "evidence_span": "Không cung cấp dữ liệu cá nhân ... gây tổn hại tới quốc phòng, an ninh quốc gia, trật tự an toàn xã hội."
+  },
+  {
+    "question": "Nếu không thể chỉnh sửa dữ liệu cá nhân thì phải thông báo sau bao lâu?",
+    "ground_truth": "Thông báo tới chủ thể dữ liệu sau 72 giờ kể khi nhận được yêu cầu chỉnh sửa.",
+    "article": "Điều 15 khoản 2",
+    "evidence_span": "Trường hợp không thể thực hiện thì thông báo tới chủ thể dữ liệu sau 72 giờ kể khi nhận được yêu cầu chỉnh sửa."
+  }
+]

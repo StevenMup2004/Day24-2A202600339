@@ -1,0 +1,8 @@
+{
+  "pii_detection_rate": 0.857,
+  "pii_latency_p95_ms": 0.195,
+  "topic_accuracy": 1.0,
+  "adversarial_detection_rate": 0.95,
+  "legitimate_false_positive_rate": 0.0,
+  "presidio_available": false
+}

@@ -1,0 +1,7 @@
+{
+  "mode": "openai_output_safety_classifier",
+  "unsafe_detection_rate": 1.0,
+  "false_positive_rate": 0.0,
+  "latency_p95_ms": 3073.923,
+  "production_note": "OpenAI is used in this submission when enabled; replace with Groq Llama Guard 3 or self-hosted Llama Guard 3 for exact C.4 production parity."
+}

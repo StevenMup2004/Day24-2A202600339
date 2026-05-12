@@ -1,0 +1,10 @@
+{
+  "faithfulness": 1.0,
+  "answer_relevancy": 1.0,
+  "context_precision": 1.0,
+  "context_recall": 1.0,
+  "num_questions": 2,
+  "eval_mode": "openai_ragas_compatible_judge",
+  "note": "OpenAI-backed RAGAS-compatible judging is used when --openai/--require-openai is enabled; otherwise an offline fallback keeps the pipeline runnable.",
+  "estimated_cost_usd": 0.012
+}
