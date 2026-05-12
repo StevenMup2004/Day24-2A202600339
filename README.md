@@ -1,5 +1,8 @@
 # Lab 24 - Full Evaluation & Guardrail System
 
+**Name:** Vu Hai Dang - 2A202600339
+
+
 ## Overview
 
 This repo completes Lab 24 for a RAG assistant over Nghị định 13 / personal data protection. It reuses the Day18 production RAG artifacts, then adds an evaluation layer, LLM-as-Judge calibration, input/output guardrails, full-stack latency benchmark, CI eval gate and a production blueprint.
