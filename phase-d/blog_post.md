@@ -1,3 +1,5 @@
+**Name:** Vu Hai Dang - 2A202600339
+
 # From "RAG Works" To "RAG Is Measured"
 
 This lab turned a Day18 RAG pipeline into a more production-shaped system. The main lesson is that a demo answer is not enough: the system needs quality metrics, judge calibration, safety checks and latency numbers.
