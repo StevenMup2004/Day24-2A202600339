@@ -1,5 +1,11 @@
 {
-  "pii_detection_rate": 0.857,
+  "num_pii_tests": 12,
+  "pii_edge_cases_tested": [
+    "empty",
+    "long",
+    "multilingual"
+  ],
+  "pii_detection_rate": 0.875,
   "pii_latency_p95_ms": 0.195,
   "topic_accuracy": 1.0,
   "adversarial_detection_rate": 0.95,

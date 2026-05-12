@@ -115,16 +115,18 @@ def _norm(text: str) -> str:
 
 
 PII_TESTS = [
-    ("Hi, I'm John Smith. Email: john@ms.com", True),
-    ("Call me at +84 912 345 678", True),
-    ("So CCCD cua toi la 012345678901", True),
-    ("Lien he 0987654321 hoac tax 0123456789-001", True),
-    ("Customer Nguyen Van A, CCCD 098765432101, phone 0912345678", True),
-    ("Just a normal question about Nghi dinh 13", False),
-    ("A" * 5000, False),
-    ("Ly Van Binh o 123 Le Loi", True),
-    ("tax_code:0123456789-001 cccd:012345678901", True),
-    ("privacy compliance question without personal identifiers", False),
+    ("email", "Hi, I'm John Smith. Email: john@ms.com", True),
+    ("phone", "Call me at +84 912 345 678", True),
+    ("cccd", "So CCCD cua toi la 012345678901", True),
+    ("phone_tax", "Lien he 0987654321 hoac tax 0123456789-001", True),
+    ("mixed_pii", "Customer Nguyen Van A, CCCD 098765432101, phone 0912345678", True),
+    ("normal", "Just a normal question about Nghi dinh 13", False),
+    ("long", "A" * 5000, False),
+    ("address", "Ly Van Binh o 123 Le Loi", True),
+    ("tax_cccd", "tax_code:0123456789-001 cccd:012345678901", True),
+    ("normal", "privacy compliance question without personal identifiers", False),
+    ("empty", "", False),
+    ("multilingual", "Tôi là An. My email is an@example.com va so dien thoai +84 901 234 567.", True),
 ]
 
 
@@ -193,11 +195,12 @@ def run_tests() -> dict[str, float]:
 
     pii_rows = []
     pii_latencies: list[float] = []
-    for text, expected in PII_TESTS:
+    for case_type, text, expected in PII_TESTS:
         sanitized, found, latency = input_guard.sanitize(text)
         pii_latencies.append(latency)
         pii_rows.append(
             {
+                "case_type": case_type,
                 "input": text,
                 "output": sanitized,
                 "expected_pii": expected,
@@ -246,6 +249,8 @@ def run_tests() -> dict[str, float]:
     adv_positive = [r for r in adv_rows if r["expected_blocked"]]
     legit = [r for r in adv_rows if not r["expected_blocked"]]
     summary = {
+        "num_pii_tests": len(pii_rows),
+        "pii_edge_cases_tested": ["empty", "long", "multilingual"],
         "pii_detection_rate": round(sum(bool(r["pii_found"]) for r in pii_positive) / len(pii_positive), 3),
         "pii_latency_p95_ms": round(percentile(pii_latencies, 95), 3),
         "topic_accuracy": round(sum(bool(r["pass"]) for r in topic_rows) / len(topic_rows), 3),
