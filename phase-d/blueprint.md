@@ -1,5 +1,8 @@
 # Production Blueprint - Lab 24 Evaluation & Guardrail System
 
+**Name:** Vu Hai Dang - 2A202600339
+
+
 ## 1. SLO Definition
 
 This blueprint covers a RAG assistant for Nghị định 13 / personal data protection. The current run uses OpenAI-backed evaluation and output safety classification.
