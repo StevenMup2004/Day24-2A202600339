@@ -35,13 +35,21 @@ async def rag_pipeline_async(query: str, records: list[dict[str, object]]) -> st
     return "Khong tim thay thong tin trong tai lieu."
 
 
-async def guarded_pipeline(user_input: str, records: list[dict[str, object]], use_openai_output_guard: bool = False) -> tuple[str, dict[str, float], dict[str, object]]:
+async def guarded_pipeline(
+    user_input: str,
+    records: list[dict[str, object]],
+    use_openai_output_guard: bool = False,
+    allow_output_guard_fallback: bool = False,
+) -> tuple[str, dict[str, float], dict[str, object]]:
     timings: dict[str, float] = {}
     decisions: dict[str, object] = {"blocked": False, "stage": "none"}
     input_guard = InputGuard()
     topic_guard = TopicGuard()
     prompt_guard = PromptGuard()
-    output_guard = OutputGuard(mode="openai" if use_openai_output_guard else "local_fallback")
+    output_guard = OutputGuard(
+        mode="openai" if use_openai_output_guard else "local_fallback",
+        allow_fallback=allow_output_guard_fallback,
+    )
 
     t0 = time.perf_counter()
     sanitized, pii_entities, pii_latency = input_guard.sanitize(user_input)
@@ -71,10 +79,10 @@ async def guarded_pipeline(user_input: str, records: list[dict[str, object]], us
     timings["L3"] = (time.perf_counter() - t0) * 1000
     timings["L3_output_guard"] = out_latency
     if not safe:
-        decisions.update({"blocked": True, "stage": "output_guard", "reason": verdict, "pii_entities": pii_entities})
+        decisions.update({"blocked": True, "stage": "output_guard", "reason": verdict, "pii_entities": pii_entities, "output_guard_mode": output_guard.last_mode})
         response = refuse_response(verdict)
     else:
-        decisions.update({"blocked": False, "stage": "complete", "reason": "safe", "pii_entities": pii_entities})
+        decisions.update({"blocked": False, "stage": "complete", "reason": "safe", "pii_entities": pii_entities, "output_guard_mode": output_guard.last_mode})
         response = answer
 
     asyncio.create_task(audit_log({"input": sanitized, "response": response, "timings": timings, "decisions": decisions}))
@@ -94,12 +102,17 @@ def benchmark_queries(records: list[dict[str, object]], n: int) -> list[str]:
     return [pool[i % len(pool)] for i in range(n)]
 
 
-async def run_benchmark(n: int, use_openai_output_guard: bool = False) -> dict[str, float]:
+async def run_benchmark(n: int, use_openai_output_guard: bool = False, allow_output_guard_fallback: bool = False) -> dict[str, float]:
     records = load_day18_records()
     rows = []
     for idx, query in enumerate(benchmark_queries(records, n), 1):
         start = time.perf_counter()
-        response, timings, decisions = await guarded_pipeline(query, records, use_openai_output_guard=use_openai_output_guard)
+        response, timings, decisions = await guarded_pipeline(
+            query,
+            records,
+            use_openai_output_guard=use_openai_output_guard,
+            allow_output_guard_fallback=allow_output_guard_fallback,
+        )
         total = (time.perf_counter() - start) * 1000
         rows.append(
             {
@@ -110,6 +123,7 @@ async def run_benchmark(n: int, use_openai_output_guard: bool = False) -> dict[s
                 "l1_ms": round(timings.get("L1", 0.0), 3),
                 "l2_ms": round(timings.get("L2", 0.0), 3),
                 "l3_ms": round(timings.get("L3", 0.0), 3),
+                "output_guard_mode": decisions.get("output_guard_mode", "not_run"),
                 "total_ms": round(total, 3),
                 "response_preview": response[:120],
             }
@@ -120,6 +134,7 @@ async def run_benchmark(n: int, use_openai_output_guard: bool = False) -> dict[s
     l1 = [float(r["l1_ms"]) for r in rows]
     l3 = [float(r["l3_ms"]) for r in rows]
     total = [float(r["total_ms"]) for r in rows]
+    output_guard_modes = sorted({str(r["output_guard_mode"]) for r in rows})
     summary = {
         "num_requests": len(rows),
         "blocked_rate": round(sum(bool(r["blocked"]) for r in rows) / len(rows), 3),
@@ -132,7 +147,8 @@ async def run_benchmark(n: int, use_openai_output_guard: bool = False) -> dict[s
         "total_p99_ms": round(percentile(total, 99), 3),
         "baseline_without_guardrail_ms": 0.15,
         "overhead_note": "Measured with OpenAI output guard network calls included." if use_openai_output_guard else "Measured on local fallback guards; network LLM calls are not included.",
-        "output_guard_mode": "openai" if use_openai_output_guard else "local_fallback",
+        "requested_output_guard_mode": "openai" if use_openai_output_guard else "local_fallback",
+        "actual_output_guard_modes": output_guard_modes,
     }
     write_json(ROOT / "phase-c" / f"latency_summary{suffix}.json", summary)
     return summary
@@ -143,14 +159,30 @@ def main() -> None:
     parser.add_argument("--benchmark", type=int, default=100)
     parser.add_argument("--query", default=None)
     parser.add_argument("--openai-output-guard", action="store_true")
+    parser.add_argument("--allow-output-guard-fallback", action="store_true")
     args = parser.parse_args()
 
     if args.query:
         records = load_day18_records()
-        response, timings, decisions = asyncio.run(guarded_pipeline(args.query, records, use_openai_output_guard=args.openai_output_guard))
+        response, timings, decisions = asyncio.run(
+            guarded_pipeline(
+                args.query,
+                records,
+                use_openai_output_guard=args.openai_output_guard,
+                allow_output_guard_fallback=args.allow_output_guard_fallback,
+            )
+        )
         print({"response": response, "timings": timings, "decisions": decisions})
         return
-    print(asyncio.run(run_benchmark(args.benchmark, use_openai_output_guard=args.openai_output_guard)))
+    print(
+        asyncio.run(
+            run_benchmark(
+                args.benchmark,
+                use_openai_output_guard=args.openai_output_guard,
+                allow_output_guard_fallback=args.allow_output_guard_fallback,
+            )
+        )
+    )
 
 
 if __name__ == "__main__":

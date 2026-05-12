@@ -1,6 +1,13 @@
 {
   "num_labels": 10,
-  "cohen_kappa": 1.0,
-  "interpretation": "almost perfect agreement",
-  "note": "Human labels were sampled from the first 10 pairwise comparisons and normalized to A/B/tie."
+  "cohen_kappa": 0.75,
+  "interpretation": "substantial agreement",
+  "label_source": "phase-b/human_labels.csv",
+  "label_source_note": "Human labels are treated as a reviewed input artifact; this script no longer generates them from judge output.",
+  "judge_source": "phase-b/pairwise_results.csv:winner_after_swap",
+  "agreements": 9,
+  "disagreements": 1,
+  "disagreement_question_ids": [
+    "6"
+  ]
 }

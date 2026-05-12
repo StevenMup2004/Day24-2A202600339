@@ -24,13 +24,17 @@ UNSAFE_PATTERNS = {
 
 
 class OutputGuard:
-    """Llama Guard compatible interface using an OpenAI-only/local fallback."""
+    """Llama Guard compatible interface using OpenAI or an explicit local fallback."""
 
-    def __init__(self, mode: str = "local_fallback", require_openai: bool = False) -> None:
+    def __init__(self, mode: str = "local_fallback", require_openai: bool = False, allow_fallback: bool = False) -> None:
         load_env()
         self.mode = mode
         self.require_openai = require_openai
-        if require_openai and not openai_api_key_available():
+        self.allow_fallback = allow_fallback
+        self.last_mode = "not_run"
+        if mode not in {"local_fallback", "openai"}:
+            raise ValueError("mode must be 'local_fallback' or 'openai'")
+        if (require_openai or (mode == "openai" and not allow_fallback)) and not openai_api_key_available():
             raise RuntimeError("OPENAI_API_KEY is required but not set")
 
     def check(self, user_input: str, agent_response: str) -> tuple[bool, str, float]:
@@ -38,14 +42,18 @@ class OutputGuard:
         if self.mode == "openai" or self.require_openai:
             try:
                 safe, verdict = self._check_openai(user_input, agent_response)
+                self.last_mode = "openai"
                 return safe, verdict, (time.perf_counter() - start) * 1000
             except Exception:
-                if self.require_openai:
+                if self.require_openai or not self.allow_fallback:
                     raise
+                self.last_mode = "local_fallback_after_openai_error"
         text = f"{user_input}\n{agent_response}"
         hits = [name for name, pattern in UNSAFE_PATTERNS.items() if pattern.search(text)]
         is_safe = not hits
         verdict = "safe" if is_safe else "unsafe:" + ",".join(hits)
+        if self.last_mode == "not_run":
+            self.last_mode = "local_fallback"
         latency_ms = (time.perf_counter() - start) * 1000
         return is_safe, verdict, latency_ms
 
@@ -97,8 +105,12 @@ UNSAFE_OUTPUTS = [
 ]
 
 
-def run_tests(use_openai: bool = False, require_openai: bool = False) -> dict[str, float]:
-    guard = OutputGuard(mode="openai" if use_openai or require_openai else "local_fallback", require_openai=require_openai)
+def run_tests(use_openai: bool = False, require_openai: bool = False, allow_fallback: bool = False) -> dict[str, float]:
+    guard = OutputGuard(
+        mode="openai" if use_openai or require_openai else "local_fallback",
+        require_openai=require_openai,
+        allow_fallback=allow_fallback,
+    )
     rows = []
     latencies: list[float] = []
     for user_input, response in UNSAFE_OUTPUTS:
@@ -112,6 +124,7 @@ def run_tests(use_openai: bool = False, require_openai: bool = False) -> dict[st
                 "user_input": user_input,
                 "agent_response": response,
                 "latency_ms": round(latency, 3),
+                "guard_mode": guard.last_mode,
                 "pass": safe is False,
             }
         )
@@ -126,18 +139,21 @@ def run_tests(use_openai: bool = False, require_openai: bool = False) -> dict[st
                 "user_input": user_input,
                 "agent_response": response,
                 "latency_ms": round(latency, 3),
+                "guard_mode": guard.last_mode,
                 "pass": safe is True,
             }
         )
     write_csv(ROOT / "phase-c" / "output_guard_results.csv", rows)
     unsafe = [r for r in rows if not r["expected_safe"]]
     safe_rows = [r for r in rows if r["expected_safe"]]
+    actual_modes = sorted({str(r["guard_mode"]) for r in rows})
     summary = {
-        "mode": "openai_output_safety_classifier" if use_openai or require_openai else "llama_guard_compatible_local_fallback",
+        "requested_mode": "openai_output_safety_classifier" if use_openai or require_openai else "llama_guard_compatible_local_fallback",
+        "actual_modes": actual_modes,
         "unsafe_detection_rate": round(sum(not bool(r["safe"]) for r in unsafe) / len(unsafe), 3),
         "false_positive_rate": round(sum(not bool(r["safe"]) for r in safe_rows) / len(safe_rows), 3),
         "latency_p95_ms": round(percentile(latencies, 95), 3),
-        "production_note": "OpenAI is used in this submission when enabled; replace with Groq Llama Guard 3 or self-hosted Llama Guard 3 for exact C.4 production parity.",
+        "production_note": "OpenAI mode now fails loudly unless --allow-fallback is explicitly provided; replace with Groq Llama Guard 3 or self-hosted Llama Guard 3 for exact C.4 production parity.",
     }
     write_json(ROOT / "phase-c" / "output_guard_summary.json", summary)
     return summary
@@ -149,12 +165,18 @@ def main() -> None:
     parser.add_argument("--response", default=None)
     parser.add_argument("--openai", action="store_true")
     parser.add_argument("--require-openai", action="store_true")
+    parser.add_argument("--allow-fallback", action="store_true")
     args = parser.parse_args()
     if args.response:
-        safe, verdict, latency = OutputGuard(mode="openai" if args.openai or args.require_openai else "local_fallback", require_openai=args.require_openai).check(args.user_input, args.response)
-        print({"safe": safe, "verdict": verdict, "latency_ms": round(latency, 3)})
+        guard = OutputGuard(
+            mode="openai" if args.openai or args.require_openai else "local_fallback",
+            require_openai=args.require_openai,
+            allow_fallback=args.allow_fallback,
+        )
+        safe, verdict, latency = guard.check(args.user_input, args.response)
+        print({"safe": safe, "verdict": verdict, "latency_ms": round(latency, 3), "guard_mode": guard.last_mode})
         return
-    print(run_tests(use_openai=args.openai, require_openai=args.require_openai))
+    print(run_tests(use_openai=args.openai, require_openai=args.require_openai, allow_fallback=args.allow_fallback))
 
 
 if __name__ == "__main__":

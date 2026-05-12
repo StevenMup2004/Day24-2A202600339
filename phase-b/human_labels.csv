@@ -1,11 +1,11 @@
 question_id,human_winner,confidence,notes
-1,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-2,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-3,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-4,B,high,Manual label follows factual accuracy and directness; checked against ground truth.
-5,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-6,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-7,B,high,Manual label follows factual accuracy and directness; checked against ground truth.
-8,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-9,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
-10,A,high,Manual label follows factual accuracy and directness; checked against ground truth.
+1,A,high,Answer A directly states the decree scope and avoids unrelated source text.
+2,A,high,Answer A gives the exact location requested while B is mostly context.
+3,A,high,Answer A is a complete definition and B is truncated context.
+4,B,high,Answer A refuses while B contains evidence about personal data forms.
+5,A,high,Answer A directly identifies this as sensitive personal data.
+6,tie,medium,B contains supporting evidence but A is cleaner and more complete.
+7,B,high,Answer A refuses while B includes the relevant data collection principle.
+8,A,high,Answer A directly answers the purchase and sale question.
+9,A,high,Answer A states the retention rule concisely and matches ground truth.
+10,A,high,Answer A gives the enforcement outcomes directly.

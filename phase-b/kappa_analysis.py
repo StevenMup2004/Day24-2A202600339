@@ -8,9 +8,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from lab24_common import read_csv, write_csv, write_json
+from lab24_common import read_csv, write_json
 
 LABELS = ["A", "B", "tie"]
+
+
+def normalize_label(value: str) -> str:
+    label = value.strip()
+    if label.lower() == "tie":
+        return "tie"
+    label = label.upper()
+    if label not in {"A", "B"}:
+        raise ValueError(f"Invalid label {value!r}; expected A, B, or tie")
+    return label
 
 
 def cohen_kappa(a: list[str], b: list[str]) -> float:
@@ -46,27 +56,51 @@ def main() -> None:
 
         pairwise_judge.main()
     pairwise = read_csv(pairwise_path)
-    labels = []
-    for row in pairwise[:10]:
-        winner = row.get("winner_after_swap", "tie")
-        labels.append(
+
+    labels_path = ROOT / "phase-b" / "human_labels.csv"
+    if not labels_path.exists():
+        raise FileNotFoundError(
+            "phase-b/human_labels.csv is required. Create at least 10 rows with "
+            "question_id,human_winner,confidence,notes before running kappa analysis."
+        )
+
+    pairwise_by_id = {row["question_id"]: row for row in pairwise}
+    labels = read_csv(labels_path)
+    if len(labels) < 10:
+        raise ValueError("At least 10 human labels are required for calibration.")
+
+    paired = []
+    for label_row in labels[:10]:
+        question_id = label_row.get("question_id", "").strip()
+        if question_id not in pairwise_by_id:
+            raise ValueError(f"Human label question_id={question_id!r} is not present in pairwise_results.csv")
+        human_label = normalize_label(label_row.get("human_winner", ""))
+        judge_label = normalize_label(pairwise_by_id[question_id].get("winner_after_swap", "tie"))
+        paired.append(
             {
-                "question_id": row["question_id"],
-                "human_winner": winner,
-                "confidence": "high" if winner != "tie" else "medium",
-                "notes": "Manual label follows factual accuracy and directness; checked against ground truth.",
+                "question_id": question_id,
+                "human_winner": human_label,
+                "judge_winner": judge_label,
+                "agreement": human_label == judge_label,
+                "confidence": label_row.get("confidence", ""),
+                "notes": label_row.get("notes", ""),
             }
         )
-    write_csv(ROOT / "phase-b" / "human_labels.csv", labels)
 
-    human = [row["human_winner"] for row in labels]
-    judge = [row.get("winner_after_swap", "tie") for row in pairwise[:10]]
+    human = [row["human_winner"] for row in paired]
+    judge = [row["judge_winner"] for row in paired]
     kappa = cohen_kappa(human, judge)
+    disagreements = [row for row in paired if not row["agreement"]]
     payload = {
-        "num_labels": len(labels),
+        "num_labels": len(paired),
         "cohen_kappa": kappa,
         "interpretation": interpretation(kappa),
-        "note": "Human labels were sampled from the first 10 pairwise comparisons and normalized to A/B/tie.",
+        "label_source": "phase-b/human_labels.csv",
+        "label_source_note": "Human labels are treated as a reviewed input artifact; this script no longer generates them from judge output.",
+        "judge_source": "phase-b/pairwise_results.csv:winner_after_swap",
+        "agreements": sum(1 for row in paired if row["agreement"]),
+        "disagreements": len(disagreements),
+        "disagreement_question_ids": [row["question_id"] for row in disagreements],
     }
     write_json(ROOT / "phase-b" / "kappa_analysis.json", payload)
 
@@ -76,9 +110,25 @@ def main() -> None:
         f"- Samples: {payload['num_labels']}",
         f"- Cohen's kappa: {payload['cohen_kappa']}",
         f"- Interpretation: {payload['interpretation']}",
+        f"- Agreements: {payload['agreements']}",
+        f"- Disagreements: {payload['disagreements']}",
+        f"- Label source: `{payload['label_source']}`",
         "",
-        "Because kappa is at or above the production-ready threshold, the judge can be used for monitoring with periodic human spot checks.",
+        "Human labels are loaded from the checked-in label file instead of being generated from judge output.",
     ]
+    if disagreements:
+        md.extend(
+            [
+                "",
+                "## Disagreements",
+                "",
+                "| Question ID | Human | Judge | Notes |",
+                "|---:|---|---|---|",
+            ]
+        )
+        for row in disagreements:
+            note = str(row["notes"]).replace("|", " ")
+            md.append(f"| {row['question_id']} | {row['human_winner']} | {row['judge_winner']} | {note} |")
     (ROOT / "phase-b" / "kappa_analysis.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     notebook = {

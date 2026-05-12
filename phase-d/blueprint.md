@@ -61,7 +61,7 @@ Latency annotations from 100-request benchmark:
 2. Compare context precision and context recall for the same timeframe.
 3. Diff prompt/version changes since last passing run.
 
-**Resolution:** rollback prompt, re-index corpus, tune top_k/reranker, then re-run `python scripts/run_eval.py`.
+**Resolution:** rollback prompt, re-index corpus, tune top_k/reranker, then re-run `python scripts/run_eval.py --require-openai`.
 
 ### Incident: PII detection below 80%
 
@@ -112,12 +112,12 @@ Optimization opportunities:
 Current results are strong against the lab targets:
 
 - Phase A: 50-question OpenAI-backed RAGAS-compatible eval, all four metrics above target.
-- Phase B: OpenAI pairwise judge with swap-and-average, 30 comparisons, kappa 1.0 on 10 reviewed labels.
+- Phase B: OpenAI pairwise judge with swap-and-average, 30 comparisons, kappa 0.75 on 10 reviewed labels.
 - Phase C: PII detection 85.7%, topic accuracy 100%, adversarial detection 95%, output unsafe detection 100%.
 
 Known risk:
 
-- The lab requested Llama Guard 3 for C.4. This submission uses an OpenAI safety classifier with the same `safe/unsafe` interface because Groq/GPU is unavailable. Production migration should replace `OutputGuard` with Groq Llama Guard 3 or self-hosted `meta-llama/Llama-Guard-3-8B`.
+- The lab requested Llama Guard 3 for C.4. This submission uses an OpenAI safety classifier with the same `safe/unsafe` interface because Groq/GPU is unavailable. OpenAI mode now fails loudly if the API call fails, unless an explicit fallback flag is used for demos. Production migration should replace `OutputGuard` with Groq Llama Guard 3 or self-hosted `meta-llama/Llama-Guard-3-8B`.
 
 ## 6. Rollout Plan
 

@@ -1,7 +1,10 @@
 {
-  "mode": "openai_output_safety_classifier",
+  "requested_mode": "openai_output_safety_classifier",
+  "actual_modes": [
+    "openai"
+  ],
   "unsafe_detection_rate": 1.0,
   "false_positive_rate": 0.0,
   "latency_p95_ms": 3073.923,
-  "production_note": "OpenAI is used in this submission when enabled; replace with Groq Llama Guard 3 or self-hosted Llama Guard 3 for exact C.4 production parity."
+  "production_note": "OpenAI mode now fails loudly unless --allow-fallback is explicitly provided; replace with Groq Llama Guard 3 or self-hosted Llama Guard 3 for exact C.4 production parity."
 }

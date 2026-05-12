@@ -4,7 +4,7 @@
 
 This repo completes Lab 24 for a RAG assistant over Nghị định 13 / personal data protection. It reuses the Day18 production RAG artifacts, then adds an evaluation layer, LLM-as-Judge calibration, input/output guardrails, full-stack latency benchmark, CI eval gate and a production blueprint.
 
-The submitted run uses the existing OpenAI key from `.env` for the main judge-based artifacts. Phase A uses an OpenAI-backed RAGAS-compatible judge for 50 questions. Phase B uses OpenAI pairwise and absolute rubric judges. Phase C uses local input guards plus an OpenAI output safety classifier with a Llama Guard-compatible `safe/unsafe` interface. Local fallbacks remain in code only so the scripts are still runnable if API access is unavailable.
+The submitted run uses the existing OpenAI key from `.env` for the main judge-based artifacts. Phase A uses an OpenAI-backed RAGAS-compatible judge for 50 questions. Phase B uses OpenAI pairwise and absolute rubric judges plus a separate reviewed human-label file for kappa calibration. Phase C uses local input guards plus an OpenAI output safety classifier with a Llama Guard-compatible `safe/unsafe` interface. Local fallbacks remain available, but OpenAI mode now fails loudly unless fallback is explicitly enabled.
 
 ## Setup
 
@@ -25,6 +25,7 @@ python phase-b/pairwise_judge.py --limit 5 --require-openai
 python phase-c/input_guard.py
 python phase-c/output_guard.py --require-openai
 python phase-c/full_pipeline.py --benchmark 20 --openai-output-guard
+python scripts/run_eval.py --require-openai --threshold faithfulness=0.75 --threshold answer_relevancy=0.70 --threshold context_precision=0.60 --threshold context_recall=0.65
 ```
 
 ## Results Summary
@@ -64,7 +65,7 @@ Artifacts:
 | Pairwise questions evaluated | 30 |
 | Absolute scored questions | 30 |
 | Absolute overall average | 4.29 / 5 |
-| Cohen's kappa vs human labels | 1.00 |
+| Cohen's kappa vs human labels | 0.75 |
 | Cross-judge protocol | Implemented |
 
 ### Phase C - Guardrails Stack
@@ -94,7 +95,7 @@ Artifacts:
 | Output guard latency P95 | 3073.923 ms | measured | Documented |
 | Full-stack P50/P95/P99 | 1495.346 / 2317.918 / 2912.119 ms | measured | Documented |
 
-Note: output guard uses OpenAI safety classification in this OpenAI-only submission. The code keeps the same `safe/unsafe` interface so it can be replaced by Groq/self-hosted Llama Guard 3.
+Note: output guard uses OpenAI safety classification in this OpenAI-only submission. The code keeps the same `safe/unsafe` interface so it can be replaced by Groq/self-hosted Llama Guard 3. If OpenAI mode is requested and the API call fails, the run fails instead of silently reporting local fallback results as OpenAI results; use `--allow-fallback` or `--allow-output-guard-fallback` only for local demos.
 
 ### Phase D - Blueprint
 
@@ -126,7 +127,7 @@ graph TD
 ## CI/CD Eval Gate
 
 ```powershell
-python scripts/run_eval.py --threshold faithfulness=0.75 --threshold answer_relevancy=0.70 --threshold context_precision=0.60 --threshold context_recall=0.65
+python scripts/run_eval.py --require-openai --threshold faithfulness=0.75 --threshold answer_relevancy=0.70 --threshold context_precision=0.60 --threshold context_recall=0.65
 ```
 
 GitHub workflow: `.github/workflows/eval-gate.yml`

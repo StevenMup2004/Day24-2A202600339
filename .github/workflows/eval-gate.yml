@@ -20,7 +20,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run evaluation gate
-        run: python scripts/run_eval.py --threshold faithfulness=0.75 --threshold answer_relevancy=0.70 --threshold context_precision=0.60 --threshold context_recall=0.65
+        run: python scripts/run_eval.py --require-openai --threshold faithfulness=0.75 --threshold answer_relevancy=0.70 --threshold context_precision=0.60 --threshold context_recall=0.65
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 

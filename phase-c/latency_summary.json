@@ -10,5 +10,9 @@
   "total_p99_ms": 2912.119,
   "baseline_without_guardrail_ms": 0.15,
   "overhead_note": "Measured with OpenAI output guard network calls included.",
-  "output_guard_mode": "openai"
+  "requested_output_guard_mode": "openai",
+  "actual_output_guard_modes": [
+    "openai",
+    "not_run"
+  ]
 }
