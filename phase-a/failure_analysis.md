@@ -22,6 +22,7 @@ This analysis uses the bottom 10 questions by average score across the four RAGA
 ### C3: answer grounding gap
 
 **Pattern:** 6 of the bottom 10 questions share this failure mode.
+When a cluster has only one direct item, the second example is the next-lowest scoring question on the associated metric.
 
 **Examples:**
 - Hình ảnh của cá nhân thuộc loại dữ liệu nào?
@@ -33,9 +34,11 @@ This analysis uses the bottom 10 questions by average score across the four RAGA
 ### C4: missing evidence / multi-hop context gap
 
 **Pattern:** 1 of the bottom 10 questions share this failure mode.
+When a cluster has only one direct item, the second example is the next-lowest scoring question on the associated metric.
 
 **Examples:**
 - Chủ thể dữ liệu có quyền phản đối xử lý dữ liệu để làm gì?
+- Bên kiểm soát phải thực hiện yêu cầu phản đối xử lý dữ liệu trong bao lâu?
 
 **Root cause:** weakest metric is usually `context_recall`.
 **Proposed fix:** Increase top_k, add BM25 + vector hybrid search, and test multi-context retrieval.
@@ -43,6 +46,7 @@ This analysis uses the bottom 10 questions by average score across the four RAGA
 ### C1: retrieval dilution / irrelevant chunks
 
 **Pattern:** 2 of the bottom 10 questions share this failure mode.
+When a cluster has only one direct item, the second example is the next-lowest scoring question on the associated metric.
 
 **Examples:**
 - Xử lý dữ liệu cá nhân gồm những hoạt động nào?
@@ -54,9 +58,11 @@ This analysis uses the bottom 10 questions by average score across the four RAGA
 ### C2: answer does not directly address question
 
 **Pattern:** 1 of the bottom 10 questions share this failure mode.
+When a cluster has only one direct item, the second example is the next-lowest scoring question on the associated metric.
 
 **Examples:**
 - Nếu answer relevancy thấp nhưng faithfulness cao, lỗi có thể nằm ở đâu?
+- Một nghĩa vụ của chủ thể dữ liệu theo Điều 10 là gì?
 
 **Root cause:** weakest metric is usually `answer_relevancy`.
 **Proposed fix:** Rewrite generation prompt to answer the user question first, then add supporting detail.

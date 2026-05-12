@@ -31,6 +31,8 @@ DIAGNOSIS = {
     ),
 }
 
+CLUSTER_METRIC = {cluster: metric for metric, (cluster, _fix) in DIAGNOSIS.items()}
+
 
 def main() -> None:
     path = ROOT / "phase-a" / "ragas_results.csv"
@@ -44,13 +46,17 @@ def main() -> None:
     bottom = sorted(rows, key=lambda r: r["avg_score"])[:10]
 
     clusters: dict[str, list[dict[str, str]]] = defaultdict(list)
-    for row in bottom:
+    examples_by_cluster: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in sorted(rows, key=lambda r: r["avg_score"]):
         worst_metric = min(METRICS, key=lambda m: float(row[m]))
         cluster, fix = DIAGNOSIS[worst_metric]
         row["worst_metric"] = worst_metric
         row["cluster"] = cluster
         row["proposed_fix"] = fix
-        clusters[cluster].append(row)
+        examples_by_cluster[cluster].append(row)
+
+    for row in bottom:
+        clusters[row["cluster"]].append(row)
 
     lines = [
         "# Failure Cluster Analysis",
@@ -71,17 +77,37 @@ def main() -> None:
         )
 
     lines.extend(["", "## Clusters Identified", ""])
+    used_example_questions: set[str] = set()
     for cluster, items in clusters.items():
+        metric = CLUSTER_METRIC[cluster]
+        candidate_examples = examples_by_cluster[cluster] + sorted(rows, key=lambda r: (float(r[metric]), r["avg_score"]))
+        selected_examples = []
+        for row in candidate_examples:
+            if row["question"] in used_example_questions:
+                continue
+            selected_examples.append(row)
+            used_example_questions.add(row["question"])
+            if len(selected_examples) >= 2:
+                break
+        if len(selected_examples) < 2:
+            for row in candidate_examples:
+                if row in selected_examples:
+                    continue
+                selected_examples.append(row)
+                if len(selected_examples) >= 2:
+                    break
+
         lines.extend(
             [
                 f"### {cluster}",
                 "",
                 f"**Pattern:** {len(items)} of the bottom 10 questions share this failure mode.",
+                "When a cluster has only one direct item, the second example is the next-lowest scoring question on the associated metric.",
                 "",
                 "**Examples:**",
             ]
         )
-        for row in items[:2]:
+        for row in selected_examples[:2]:
             lines.append(f"- {row['question']}")
         lines.extend(
             [
